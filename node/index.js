@@ -9,14 +9,22 @@ const config = {
 };
 const mysql = require('mysql')
 const connection = mysql.createConnection(config)
+const sqlCreateTable = `CREATE TABLE people (name VARCHAR(255))`
+const sqlQuery = `INSERT INTO people(name) values('Pati')`
 
-const sql = `INSERT INTO people(name) values('Pati')`
-connection.query(sql)
-connection.end()
-
+connection.query(sqlCreateTable)
 
 app.get('/', (req,res) => {
-    res.send('<h1>Olar</h1>')
+    connection.query(sqlQuery)    
+    connection.query('SELECT * FROM people', 
+        function (err, results, fields) {
+            if (err) throw err;
+            else 
+            res.send(`<h1>Full Cycle Rocks! </h1>  <br> <ul>` + results.map(name =>
+                `<li>${name.name}</li>
+                `
+              ).join('')+`<ul>`);
+        })
 })
 
 app.listen(port, ()=> {
