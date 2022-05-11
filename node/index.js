@@ -9,7 +9,7 @@ const config = {
 };
 const mysql = require('mysql')
 const connection = mysql.createConnection(config)
-const sqlCreateTable = `CREATE TABLE people (name VARCHAR(255))`
+const sqlCreateTable = `CREATE TABLE if not exists people (name VARCHAR(255))`
 const sqlQuery = `INSERT INTO people(name) values('Pati')`
 
 connection.query(sqlCreateTable)
